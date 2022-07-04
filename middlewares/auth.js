@@ -1,6 +1,6 @@
 const {
   userSchema: { User },
-} = require("../service");
+} = require("../models");
 const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
 

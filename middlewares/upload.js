@@ -8,24 +8,24 @@ const multerConfig = multer.diskStorage({
     cb(null, tempDir);
   },
   filename: (req, file, cb) => {
-    const index = file.mimetype.indexOf("/");
-    const type = file.mimetype.slice(index + 1, file.mimetype.length);
-    cb(null, `${req.user._id}-avatar.${type}`);
-  },
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype.includes("image")) {
-      cb(null, true);
-    } else {
-      cb(null, false);
-    }
+    cb(null, file.originalname);
   },
   limits: {
     fileSize: 2048,
   },
 });
 
+const uploadFilter = function (req, file, cb) {
+  if (!file.mimetype.includes("image")) {
+    return cb(new Error("Wrong format"), false);
+  } else {
+    cb(null, true);
+  }
+};
+
 const upload = multer({
   storage: multerConfig,
+  fileFilter: uploadFilter,
 });
 
 module.exports = upload;
