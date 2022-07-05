@@ -11,12 +11,6 @@ const updateAvatar = async (req, res, next) => {
   const { _id: id } = req.user;
   const { path: filePath } = req.file;
 
-  console.log("--------------------", filePath);
-
-  if (!filePath) {
-    return next(createError(400, '"avatar" is required'));
-  }
-
   try {
     const image = await Jimp.read(filePath);
     await image.resize(200, 200);

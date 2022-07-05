@@ -1,25 +1,17 @@
-const express = require('express')
+const express = require("express");
+const { notesController } = require("../../controller");
+const { auth } = require("../../middlewares");
 
-const router = express.Router()
+const router = express.Router();
 
-router.get('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.get("/", auth, notesController.getAll);
 
-router.get('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.get("/:noteId", auth, notesController.getById);
 
-router.post('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.post("/", auth, notesController.add);
 
-router.delete('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.delete("/:noteId", auth, notesController.remove);
 
-router.put('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.patch("/:noteId", auth, notesController.update);
 
-module.exports = router
+module.exports = router;

@@ -2,27 +2,83 @@ const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 
 const joiNoteSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().email(),
-  phone: Joi.string(),
-  favorite: Joi.boolean().default(false),
+  company: Joi.string().required(),
+  date: Joi.string().required(),
+  position: Joi.string().required(),
+  source: Joi.string().required(),
+  customSource: Joi.string().empty("").default(null),
+  description: Joi.string().empty("").default(null),
+  status: Joi.string()
+    .valid(
+      "Прийнято",
+      "Відхилено",
+      "Розглядається",
+      "Дзвінок рекрутера",
+      "Інтерв'ю",
+      "Тестове завдання",
+      "Надіслано"
+    )
+    .default("Надіслано"),
+  url: Joi.string().empty("").default(null),
 });
 
-const contactSchema = Schema(
+const joiUpdateNoteSchema = Joi.object({
+  description: Joi.string().empty("").default(null),
+  status: Joi.string()
+    .valid(
+      "Прийнято",
+      "Відхилено",
+      "Розглядається",
+      "Дзвінок рекрутера",
+      "Інтерв'ю",
+      "Тестове завдання",
+      "Надіслано"
+    )
+    .default("Надіслано"),
+});
+
+const noteSchema = Schema(
   {
-    name: {
+    company: {
       type: String,
-      required: [true, "Set name for contact"],
+      required: [true, "Name is required"],
     },
-    email: {
+    date: {
       type: String,
+      required: [true, "Date is required"],
     },
-    phone: {
+    position: {
       type: String,
+      required: [true, "Position is required"],
     },
-    favorite: {
-      type: Boolean,
-      default: false,
+    source: {
+      type: String,
+      required: [true, "Source is required"],
+    },
+    customSource: {
+      type: String,
+      default: null,
+    },
+    description: {
+      type: String,
+      default: null,
+    },
+    status: {
+      type: String,
+      enum: [
+        "Прийнято",
+        "Відхилено",
+        "Розглядається",
+        "Дзвінок рекрутера",
+        "Інтерв'ю",
+        "Тестове завдання",
+        "Надіслано",
+      ],
+      default: "Надіслано",
+    },
+    url: {
+      type: String,
+      default: null,
     },
     owner: {
       type: Schema.Types.ObjectId,
@@ -32,9 +88,10 @@ const contactSchema = Schema(
   { versionKey: false, timestamps: true }
 );
 
-const Note = model("note", contactSchema);
+const Note = model("note", noteSchema);
 
 module.exports = {
   joiNoteSchema,
+  joiUpdateNoteSchema,
   Note,
 };
