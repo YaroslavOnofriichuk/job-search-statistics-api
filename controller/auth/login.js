@@ -44,7 +44,7 @@ const login = async (req, res, next) => {
     user: {
       email: newUser.email,
       name: newUser.name,
-      avatarUrl: newUser.avatarUrl,
+      avatarURL: newUser.avatarURL,
     },
   });
 };

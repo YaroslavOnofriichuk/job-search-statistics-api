@@ -13,7 +13,11 @@ const updateAvatar = async (req, res, next) => {
 
   try {
     const image = await Jimp.read(filePath);
-    await image.resize(200, 200);
+
+    if (image.bitmap.height > image.bitmap.width) {
+      await image.rotate(-270);
+    }
+    await image.resize(200, Jimp.AUTO);
     await image.writeAsync(filePath);
   } catch (error) {
     await fs.unlink(filePath);
