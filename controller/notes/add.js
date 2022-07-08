@@ -11,6 +11,22 @@ const add = async (req, res, next) => {
     return next(createError(401, error.message));
   }
 
+  if (req.body.source === "other") {
+    req.body.source = req.body.customSource;
+  }
+
+  const notes = await Note.findOne({
+    position: req.body.position,
+    company: req.body.company,
+    owner: id,
+  });
+
+  if (notes) {
+    return next(
+      createError(409, "You have already sent your resume for this vacancy")
+    );
+  }
+
   const note = await Note.create({ ...req.body, owner: id });
 
   if (note) {
