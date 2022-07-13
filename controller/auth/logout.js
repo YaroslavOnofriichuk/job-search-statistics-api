@@ -6,7 +6,10 @@ const createError = require("http-errors");
 const logout = async (req, res, next) => {
   const { _id: id } = req.user;
 
-  const user = await User.findByIdAndUpdate(id, { token: null });
+  const user = await User.findByIdAndUpdate(id, {
+    accessToken: null,
+    refreshToken: null,
+  });
 
   if (!user) {
     return next(createError(401, "Not authorized"));

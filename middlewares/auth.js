@@ -14,17 +14,23 @@ const auth = async (req, res, next) => {
     return next(createError(401, "Not authorized"));
   }
 
-  try {
-    const { id } = jwt.verify(token, JWT_SECRET_KEY);
-    userId = id;
-  } catch (error) {
-    console.log(error);
-    return next(createError(401, "Not authorized"));
-  }
+  jwt.verify(token, JWT_SECRET_KEY, function (err, decoded) {
+    if (decoded) {
+      userId = decoded.id;
+    }
+
+    if (err?.message === "jwt expired") {
+      return next(createError(401, "Token expired"));
+    }
+
+    if (err) {
+      return next(createError(401, "Not authorized"));
+    }
+  });
 
   const user = await User.findById(userId);
 
-  if (!user || !user.token) {
+  if (!user || !user.accessToken) {
     return next(createError(401, "Not authorized"));
   }
 

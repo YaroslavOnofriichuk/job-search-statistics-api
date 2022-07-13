@@ -4,6 +4,7 @@ const {
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
+const { v4: uuidv4 } = require("uuid");
 
 const login = async (req, res, next) => {
   const { email, password } = req.body;
@@ -35,12 +36,13 @@ const login = async (req, res, next) => {
 
   const newUser = await User.findByIdAndUpdate(
     user._id,
-    { token },
+    { accessToken: token, refreshToken: uuidv4() },
     { new: true }
   );
 
   res.status(201).json({
-    token: newUser.token,
+    accessToken: newUser.accessToken,
+    refreshToken: newUser.refreshToken,
     user: {
       email: newUser.email,
       name: newUser.name,

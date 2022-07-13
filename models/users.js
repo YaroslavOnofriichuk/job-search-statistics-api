@@ -9,7 +9,8 @@ const joiUserSchema = Joi.object({
     )
     .required(),
   name: Joi.string().default(null),
-  token: Joi.string().default(null),
+  accessToken: Joi.string().default(null),
+  refreshToken: Joi.string().default(null),
   avatarURL: Joi.string().default(null),
 });
 
@@ -31,7 +32,11 @@ const userSchema = Schema(
       type: String,
       default: null,
     },
-    token: {
+    accessToken: {
+      type: String,
+      default: null,
+    },
+    refreshToken: {
       type: String,
       default: null,
     },
