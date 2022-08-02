@@ -4,13 +4,12 @@ const {
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
-const { v4: uuidv4 } = require("uuid");
 
 const login = async (req, res, next) => {
   const { email, password } = req.body;
   const { error } = joiUserSchema.validate({ email, password });
   let checkPasswordResult = false;
-  const { JWT_SECRET_KEY } = process.env;
+  const { JWT_ACCESS_SECRET_KEY, JWT_REFRESH_SECRET_KEY } = process.env;
 
   if (error) {
     return next(createError(400, error.message));
@@ -32,17 +31,27 @@ const login = async (req, res, next) => {
     id: user._id,
   };
 
-  const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "1h" });
+  const accessToken = jwt.sign(payload, JWT_ACCESS_SECRET_KEY, {
+    expiresIn: "30s",
+  });
+
+  const refreshToken = jwt.sign(payload, JWT_REFRESH_SECRET_KEY, {
+    expiresIn: "60s",
+  });
 
   const newUser = await User.findByIdAndUpdate(
     user._id,
-    { accessToken: token, refreshToken: uuidv4() },
+    { accessToken, refreshToken },
     { new: true }
   );
 
+  res.cookie("refreshToken", newUser.refreshToken, {
+    maxAge: 2592000000,
+    httpOnly: true,
+  });
+
   res.status(201).json({
     accessToken: newUser.accessToken,
-    refreshToken: newUser.refreshToken,
     user: {
       email: newUser.email,
       name: newUser.name,

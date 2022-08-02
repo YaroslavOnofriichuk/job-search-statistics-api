@@ -7,14 +7,14 @@ const createError = require("http-errors");
 const auth = async (req, res, next) => {
   const { authorization = "" } = req.headers;
   const [bearer, token] = authorization.split(" ");
-  const { JWT_SECRET_KEY } = process.env;
+  const { JWT_ACCESS_SECRET_KEY } = process.env;
   let userId = "";
 
   if (bearer !== "Bearer") {
     return next(createError(401, "Not authorized"));
   }
 
-  jwt.verify(token, JWT_SECRET_KEY, function (err, decoded) {
+  jwt.verify(token, JWT_ACCESS_SECRET_KEY, function (err, decoded) {
     if (decoded) {
       userId = decoded.id;
     }
