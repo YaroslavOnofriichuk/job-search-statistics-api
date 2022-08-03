@@ -45,9 +45,7 @@ const refresh = async (req, res, next) => {
   res.cookie("refreshToken", newUser.refreshToken, {
     maxAge: 1296000000,
     httpOnly: true,
-    secure: true,
-    domain: "https://job-search-statistics.netlify.app",
-    sameSite: "none",
+    // secure: true,
   });
 
   res.status(201).json({
