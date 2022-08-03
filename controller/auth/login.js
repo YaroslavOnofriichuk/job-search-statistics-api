@@ -48,7 +48,7 @@ const login = async (req, res, next) => {
   res.cookie("refreshToken", newUser.refreshToken, {
     maxAge: 2592000000,
     httpOnly: true,
-    secure: true,
+    // secure: true,
   });
 
   res.status(201).json({
