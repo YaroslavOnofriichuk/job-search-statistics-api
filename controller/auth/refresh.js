@@ -46,7 +46,7 @@ const refresh = async (req, res, next) => {
     maxAge: 1296000000,
     httpOnly: true,
     secure: true,
-    path: "/",
+    domain: "https://job-search-statistics.netlify.app",
   });
 
   res.status(201).json({

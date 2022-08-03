@@ -49,7 +49,7 @@ const login = async (req, res, next) => {
     maxAge: 2592000000,
     httpOnly: true,
     secure: true,
-    path: "/",
+    domain: "https://job-search-statistics.netlify.app",
   });
 
   res.status(201).json({
