@@ -50,6 +50,7 @@ const login = async (req, res, next) => {
     httpOnly: true,
     secure: true,
     domain: "https://job-search-statistics.netlify.app",
+    sameSite: "none",
   });
 
   res.status(201).json({
