@@ -12,7 +12,7 @@ const updateAvatar = async (req, res, next) => {
   const { path: filePath } = req.file;
 
   try {
-    const image = await Jimp.read("SDFSD");
+    const image = await Jimp.read(filePath);
 
     if (image.bitmap.height > image.bitmap.width) {
       await image.rotate(-270);

@@ -10,7 +10,12 @@ const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
 app.use(logger(formatsLogger));
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(
+  cors({
+    credentials: true,
+    origin: "https://job-search-statistics.netlify.app",
+  })
+);
 app.use(cookieParser());
 app.use(express.json());
 
