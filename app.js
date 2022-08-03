@@ -13,7 +13,7 @@ app.use(logger(formatsLogger));
 app.use(
   cors({
     credentials: true,
-    origin: "https://job-search-statistics.netlify.app",
+    origin: "https://job-search-statistics.netlify.app/",
   })
 );
 app.use(cookieParser());
