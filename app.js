@@ -16,7 +16,7 @@ app.use((req, res, next) => {
     "https://job-search-statistics.netlify.app"
   );
   res.header(
-    "Access-Control-Allow-Headera",
+    "Access-Control-Allow-Headers",
     "origin, content-type, accept, Authorization, X-Requested-With"
   );
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE");
