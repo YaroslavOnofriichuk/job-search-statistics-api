@@ -1,6 +1,6 @@
 const express = require("express");
 const logger = require("morgan");
-// const cors = require("cors");
+const cors = require("cors");
 
 const { notesRouter, authRouter, usersRouter } = require("./routes/api");
 
@@ -14,18 +14,7 @@ app.use(logger(formatsLogger));
 //     origin: ["https://job-search-statistics.netlify.app"],
 //   })
 // );
-app.use(function (req, res, next) {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://job-search-statistics.netlify.app"
-  );
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
-// app.use(cors({ origin: "*" }));
+app.use(cors());
 app.use(express.json());
 
 app.use("/api/v1/notes", notesRouter);
