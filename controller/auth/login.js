@@ -50,7 +50,7 @@ const login = async (req, res, next) => {
     httpOnly: true,
     secure: true,
     sameSite: "none",
-    domain: "herokuapp.com",
+    domain: "https://job-search-statistic.herokuapp.com",
   });
 
   res.status(201).json({
