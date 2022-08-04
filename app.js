@@ -9,12 +9,13 @@ const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
 app.use(logger(formatsLogger));
-// app.use(
-//   cors({
-//     origin: ["https://job-search-statistics.netlify.app"],
-//   })
-// );
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://job-search-statistics.netlify.app"],
+    credentials: true,
+  })
+);
+// app.use(cors());
 app.use(express.json());
 
 app.use("/api/v1/notes", notesRouter);
