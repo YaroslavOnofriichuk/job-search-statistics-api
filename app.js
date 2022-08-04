@@ -9,12 +9,26 @@ const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
+const session = require("express-session");
+app.set("trust proxy", 1);
+app.use(
+  session({
+    secret: "Super Secret (change it)",
+    resave: true,
+    saveUninitialized: false,
+    cookie: {
+      sameSite: "none", // must be 'none' to enable cross-site delivery
+      secure: true, // must be true if sameSite='none'
+    },
+  })
+);
+
 app.use(logger(formatsLogger));
 app.enable("trust proxy");
 app.use(
   cors({
     credentials: true,
-    origin: ["https://job-search-statistic.herokuapp.com"],
+    origin: ["https://job-search-statistics.netlify.app"],
   })
 );
 app.use(cookieParser());

@@ -46,8 +46,8 @@ const refresh = async (req, res, next) => {
     maxAge: 1296000000,
     httpOnly: true,
     secure: true,
-    sameSite: "none",
-    domain: "https://job-search-statistic.herokuapp.com",
+    // sameSite: "none",
+    // domain: "https://job-search-statistics.netlify.app",
   });
 
   res.status(201).json({
