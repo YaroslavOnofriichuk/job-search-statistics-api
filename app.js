@@ -12,7 +12,8 @@ app.use(logger(formatsLogger));
 app.use(
   cors({
     origin: ["https://job-search-statistics.netlify.app"],
-    credentials: true,
+    // credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 // app.use(cors());
