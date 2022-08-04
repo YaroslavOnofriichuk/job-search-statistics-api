@@ -14,7 +14,7 @@ app.enable("trust proxy");
 app.use(
   cors({
     credentials: true,
-    origin: ["https://job-search-statistics.netlify.app"],
+    origin: ["https://job-search-statistic.herokuapp.com"],
   })
 );
 app.use(cookieParser());
