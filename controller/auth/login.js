@@ -32,11 +32,11 @@ const login = async (req, res, next) => {
   };
 
   const accessToken = jwt.sign(payload, JWT_ACCESS_SECRET_KEY, {
-    expiresIn: "15m",
+    expiresIn: "30s",
   });
 
   const refreshToken = jwt.sign(payload, JWT_REFRESH_SECRET_KEY, {
-    expiresIn: "30d",
+    expiresIn: "1m",
   });
 
   const newUser = await User.findByIdAndUpdate(
@@ -45,16 +45,17 @@ const login = async (req, res, next) => {
     { new: true }
   );
 
-  res.cookie("refreshToken", newUser.refreshToken, {
-    maxAge: 2592000000,
-    httpOnly: true,
-    secure: true,
-    // sameSite: "none",
-    // domain: "https://job-search-statistics.netlify.app",
-  });
+  // res.cookie("refreshToken", newUser.refreshToken, {
+  //   maxAge: 2592000000,
+  //   httpOnly: true,
+  //   secure: true,
+  //   sameSite: "none",
+  //   domain: "https://job-search-statistics.netlify.app",
+  // });
 
   res.status(201).json({
     accessToken: newUser.accessToken,
+    refreshToken: newUser.refreshToken,
     user: {
       email: newUser.email,
       name: newUser.name,

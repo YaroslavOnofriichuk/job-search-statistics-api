@@ -5,7 +5,7 @@ const createError = require("http-errors");
 const jwt = require("jsonwebtoken");
 
 const refresh = async (req, res, next) => {
-  const { refreshToken } = req.cookies;
+  const { refreshToken } = req.body;
   const { JWT_ACCESS_SECRET_KEY, JWT_REFRESH_SECRET_KEY } = process.env;
 
   if (!refreshToken) {
@@ -29,11 +29,11 @@ const refresh = async (req, res, next) => {
   };
 
   const newAccessToken = jwt.sign(payload, JWT_ACCESS_SECRET_KEY, {
-    expiresIn: "15m",
+    expiresIn: "30s",
   });
 
   const newRefreshToken = jwt.sign(payload, JWT_REFRESH_SECRET_KEY, {
-    expiresIn: "30d",
+    expiresIn: "1m",
   });
 
   const newUser = await User.findByIdAndUpdate(
@@ -42,21 +42,22 @@ const refresh = async (req, res, next) => {
     { new: true }
   );
 
-  res.cookie("refreshToken", newUser.refreshToken, {
-    maxAge: 1296000000,
-    httpOnly: true,
-    secure: true,
-    // sameSite: "none",
-    // domain: "https://job-search-statistics.netlify.app",
-  });
+  // res.cookie("refreshToken", newUser.refreshToken, {
+  //   maxAge: 1296000000,
+  //   httpOnly: true,
+  //   secure: true,
+  //   sameSite: "none",
+  //   domain: "https://job-search-statistics.netlify.app",
+  // });
 
   res.status(201).json({
     accessToken: newUser.accessToken,
-    user: {
-      email: newUser.email,
-      name: newUser.name,
-      avatarURL: newUser.avatarURL,
-    },
+    refreshToken: newUser.refreshToken,
+    // user: {
+    //   email: newUser.email,
+    //   name: newUser.name,
+    //   avatarURL: newUser.avatarURL,
+    // },
   });
 };
 
