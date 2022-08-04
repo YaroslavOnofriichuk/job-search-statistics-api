@@ -12,7 +12,7 @@ const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 app.use(logger(formatsLogger));
 app.use(
   cors({
-    origin: ["https://job-search-statistics.netlify.app"],
+    origin: ["https://job-search-statistics.netlify.app/"],
   })
 );
 app.use(cookieParser());
