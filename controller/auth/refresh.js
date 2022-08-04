@@ -46,7 +46,8 @@ const refresh = async (req, res, next) => {
     maxAge: 1296000000,
     httpOnly: true,
     secure: true,
-    SameSite: "none",
+    sameSite: "none",
+    domain: "netlify.app",
   });
 
   res.status(201).json({
