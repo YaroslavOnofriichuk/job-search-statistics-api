@@ -30,12 +30,12 @@ app.use(logger(formatsLogger));
 //     // allowedHeaders: ["Content-Type", "Authorization"],
 //   })
 // );
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
 
-app.use("/api/v1/notes", cors(), notesRouter);
-app.use("/api/v1/auth", cors(), authRouter);
-app.use("/api/v1/users", cors(), usersRouter);
+app.use("/api/v1/notes", notesRouter);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/users", usersRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
