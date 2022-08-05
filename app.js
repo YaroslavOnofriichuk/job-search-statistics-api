@@ -30,7 +30,12 @@ app.use(logger(formatsLogger));
 //     // allowedHeaders: ["Content-Type", "Authorization"],
 //   })
 // );
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: "https://job-search-statistics.netlify.app",
+  })
+);
 app.use(express.json());
 
 app.use("/api/v1/notes", notesRouter);
