@@ -1,6 +1,6 @@
 const express = require("express");
 const logger = require("morgan");
-// const cors = require("cors");
+const cors = require("cors");
 
 const { notesRouter, authRouter, usersRouter } = require("./routes/api");
 
@@ -10,29 +10,26 @@ const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
 app.use(logger(formatsLogger));
 
-app.use((req, res, next) => {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://job-search-statistics.netlify.app"
-  );
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested, Content-Type, Accept, Authorization"
-  );
-  if (req.method === "OPTIONS") {
-    res.header("Access-Control-Allow-Methods", "POST, PUT, PATCH, GET, DELETE");
-    return res.status(200).json({});
-  }
-  next();
-});
-// app.use(
-//   cors({
-//     origin: [
-//       "https://job-search-statistics.netlify.app",
-//       "http://localhost:3000",
-//     ],
-//   })
-// );
+// app.use((req, res, next) => {
+//   res.header(
+//     "Access-Control-Allow-Origin",
+//     "https://job-search-statistics.netlify.app"
+//   );
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested, Content-Type, Accept, Authorization"
+//   );
+//   if (req.method === "OPTIONS") {
+//     res.header("Access-Control-Allow-Methods", "POST, PUT, PATCH, GET, DELETE");
+//     return res.status(200).json({});
+//   }
+//   next();
+// });
+app.use(
+  cors({
+    origin: ["https://job-search-statistics.netlify.app"],
+  })
+);
 app.use(express.json());
 
 app.use("/api/v1/notes", notesRouter);
