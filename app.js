@@ -1,6 +1,6 @@
 const express = require("express");
 const logger = require("morgan");
-// const cors = require("cors");
+const cors = require("cors");
 
 const { notesRouter, authRouter, usersRouter } = require("./routes/api");
 
@@ -33,7 +33,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 app.use("/api/v1/notes", notesRouter);
-app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/auth", cors(), authRouter);
 app.use("/api/v1/users", usersRouter);
 
 app.use((req, res) => {
