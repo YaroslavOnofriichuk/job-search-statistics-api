@@ -1,7 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
-// const cors = require("cors");
-const { cors } = require("./middlewares");
+const cors = require("cors");
+// const { cors } = require("./middlewares");
 
 const { notesRouter, authRouter, usersRouter } = require("./routes/api");
 
