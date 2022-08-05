@@ -1,6 +1,6 @@
 const express = require("express");
 const logger = require("morgan");
-// const cors = require("cors");
+const cors = require("cors");
 // const { cors } = require("./middlewares");
 
 const { notesRouter, authRouter, usersRouter } = require("./routes/api");
@@ -11,21 +11,21 @@ const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
 app.use(logger(formatsLogger));
 
-app.use((req, res, next) => {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://job-search-statistics.netlify.app"
-  );
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, Content-Type, Accept, Authorization, X-Requested-With"
-  );
-  res.header(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-  );
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header(
+//     "Access-Control-Allow-Origin",
+//     "https://job-search-statistics.netlify.app"
+//   );
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, Content-Type, Accept, Authorization, X-Requested-With"
+//   );
+//   res.header(
+//     "Access-Control-Allow-Methods",
+//     "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+//   );
+//   next();
+// });
 // app.use(
 //   cors({
 //     origin: ["https://job-search-statistics.netlify.app"],
@@ -33,11 +33,14 @@ app.use((req, res, next) => {
 //     // allowedHeaders: ["Content-Type", "Authorization"],
 //   })
 // );
-// app.use(
-//   cors({
-//     origin: ["https://job-search-statistics.netlify.app"],
-//   })
-// );
+app.use(
+  cors({
+    origin: [
+      "https://job-search-statistics.netlify.app",
+      "http://localhost:3000",
+    ],
+  })
+);
 app.use(express.json());
 
 app.use("/api/v1/notes", notesRouter);
