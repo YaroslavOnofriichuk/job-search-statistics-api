@@ -9,10 +9,7 @@ const cors = (req, res, next) => {
 
 const applyCorsHeaders = (res) => {
   res.setHeader("Access-Control-Allow-Credentials", true);
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://job-search-statistics.netlify.app"
-  );
+  res.setHeader("Access-Control-Allow-Origin", "*");
   // res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
   res.setHeader(
     "Access-Control-Allow-Methods",
