@@ -8,7 +8,7 @@ const add = async (req, res, next) => {
   const { _id: id } = req.user;
 
   if (error) {
-    return next(createError(401, error.message));
+    return next(createError(400, error.message));
   }
 
   if (req.body.source === "other") {

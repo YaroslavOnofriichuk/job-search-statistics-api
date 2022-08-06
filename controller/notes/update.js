@@ -8,7 +8,7 @@ const update = async (req, res, next) => {
   const { error } = joiUpdateNoteSchema.validate({ ...req.body });
 
   if (error) {
-    return next(createError(401, error.message));
+    return next(createError(400, error.message));
   }
 
   const note = await Note.findByIdAndUpdate(

@@ -7,7 +7,7 @@ const remove = async (req, res, next) => {
 
   const note = await Note.findByIdAndDelete(noteId);
   if (note) {
-    res.status(200).json({ message: "Contact deleted" });
+    res.status(200).json({ message: "Note deleted" });
   } else {
     res.status(404).json({ message: "Not found" });
   }

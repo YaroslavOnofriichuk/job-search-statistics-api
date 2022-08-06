@@ -1,0 +1,1114 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.1",
+    "title": "Job search statistics API",
+    "description": "Showing off swagger-ui-express",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "consumes": ["application/json", "multipart/form-data"],
+  "produces": ["application/json"],
+  "servers": [
+    {
+      "url": "https://job-search-statistics-api.herokuapp.com",
+      "urllocal": "http://localhost:7000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authorization endpoints"
+    },
+    {
+      "name": "Notes",
+      "description": "Notes endpoints"
+    },
+    {
+      "name": "Users",
+      "description": "Users endpoints"
+    }
+  ],
+  "paths": {
+    "api/v1/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User registration",
+        "parameters": [],
+
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "409": {
+            "description": "Email in use",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "api/v1/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User login",
+        "parameters": [],
+
+        "requestBody": {
+          "description": "Login's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Login or password is wrong",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "api/v1/auth/logout": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "User logout",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "description": "JWT token is required",
+
+        "responses": {
+          "204": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "api/v1/auth/refresh": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Refresh user token",
+        "parameters": [],
+
+        "requestBody": {
+          "description": "Refresh's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Refresh token is required",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "api/v1/users/current": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get user info",
+        "parameters": [],
+        "description": "JWT token is required",
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserInfoResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "api/v1/users/name": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Change user name",
+        "parameters": [],
+        "description": "JWT token is required",
+        "security": [{ "Bearer": [] }],
+
+        "requestBody": {
+          "description": "Change name object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeNameRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChangeNameResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "'name' is required",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "api/v1/users/avatar": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Change user avatar",
+        "parameters": [],
+        "description": "JWT token is required",
+        "security": [{ "Bearer": [] }],
+
+        "requestBody": {
+          "description": "Change avatar object",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeAvatarRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChangeAvatarResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "avatar is required",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "api/v1/notes/{query}": {
+      "get": {
+        "tags": ["Notes"],
+        "summary": "Get all notes",
+        "parameters": [
+          {
+            "name": "sortfield",
+            "in": "query",
+            "type": "string",
+            "description": "Notes sortfield",
+            "default": "date",
+            "required": false
+          },
+          {
+            "name": "sortType",
+            "in": "query",
+            "type": "string",
+            "description": "Notes sortType",
+            "default": "desc",
+            "required": false
+          }
+        ],
+        "description": "JWT token is required",
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllNotesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "api/v1/notes/:noteId": {
+      "get": {
+        "tags": ["Notes"],
+        "summary": "Get note",
+        "parameters": [
+          {
+            "name": "noteId",
+            "in": "path",
+            "type": "string",
+            "description": "Note id",
+            "required": true
+          }
+        ],
+        "description": "JWT token is required",
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetNoteResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "api/v1/notes": {
+      "post": {
+        "tags": ["Notes"],
+        "summary": "Add new note",
+        "parameters": [],
+        "description": "JWT token is required",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Note object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddNoteRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddNoteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "409": {
+            "description": "You have already sent your resume for this vacancy",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/v1/notes/:noteId": {
+      "delete": {
+        "tags": ["Notes"],
+        "summary": "Delete note",
+        "parameters": [
+          {
+            "name": "noteId",
+            "in": "path",
+            "type": "string",
+            "description": "Note id",
+            "required": true
+          }
+        ],
+        "description": "JWT token is required",
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteNoteResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "api/v1/notes/:noteId/": {
+      "patch": {
+        "tags": ["Notes"],
+        "summary": "Update note",
+        "parameters": [
+          {
+            "name": "noteId",
+            "in": "path",
+            "type": "string",
+            "description": "Note id",
+            "required": true
+          }
+        ],
+        "description": "JWT token is required",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Note object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateNoteRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateNoteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "RegistrationResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email"
+            }
+          }
+        },
+        "example": {
+          "code": 201,
+          "user": {
+            "email": "test@gmail.com"
+          }
+        }
+      },
+
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "avatarURL": {
+              "type": "string",
+              "description": "User's avatarURL",
+              "example": "http://avatar-link"
+            },
+            "name": {
+              "type": "string",
+              "description": "User's name",
+              "example": "UserName"
+            },
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email"
+            }
+          }
+        },
+        "example": {
+          "code": 201,
+          "data": {
+            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyY2FkMjJiZjAwZmZiNTk1NDZhMzY2NyIsImlhdCI6MTY1ODEzNzkwOSwiZXhwIjoxNjU4MjI0MzA5fQ.b2JGT59T9jsx0_MygjXnPkrBlk6FMWkfEDVzhrPfk9M",
+            "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyY2FkMjJiZjAwZmZiNTk1NDZhMzY2NyIsImlhdCI6MTY1ODEzNzkwOSwiZXhwIjoxNjU4MjI0MzA5fQ.b2JGT59T9jsx0_MygjXnPkrBlk6FMWkfEDVzhrPfk9M",
+            "user": {
+              "email": "user@example.com",
+              "name": "user",
+              "avatarURL": "http://avatar-link"
+            }
+          }
+        }
+      },
+
+      "RefreshRequest": {
+        "type": "object",
+        "required": ["refreshToken"],
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "description": "User's refreshToken",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyY2FkMjJiZjAwZmZiNTk1NDZhMzY2NyIsImlhdCI6MTY1ODEzNzkwOSwiZXhwIjoxNjU4MjI0MzA5fQ.b2JGT59T9jsx0_MygjXnPkrBlk6FMWkfEDVzhrPfk9M"
+          }
+        }
+      },
+      "RefreshResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "accessToken": {
+              "type": "string",
+              "description": "User's accessToken",
+              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyY2FkMjJiZjAwZmZiNTk1NDZhMzY2NyIsImlhdCI6MTY1ODEzNzkwOSwiZXhwIjoxNjU4MjI0MzA5fQ.b2JGT59T9jsx0_MygjXnPkrBlk6FMWkfEDVzhrPfk9M"
+            },
+            "refreshToken": {
+              "type": "string",
+              "description": "User's refreshToken",
+              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyY2FkMjJiZjAwZmZiNTk1NDZhMzY2NyIsImlhdCI6MTY1ODEzNzkwOSwiZXhwIjoxNjU4MjI0MzA5fQ.b2JGT59T9jsx0_MygjXnPkrBlk6FMWkfEDVzhrPfk9M"
+            }
+          }
+        },
+        "example": {
+          "code": 201,
+          "data": {
+            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyY2FkMjJiZjAwZmZiNTk1NDZhMzY2NyIsImlhdCI6MTY1ODEzNzkwOSwiZXhwIjoxNjU4MjI0MzA5fQ.b2JGT59T9jsx0_MygjXnPkrBlk6FMWkfEDVzhrPfk9M",
+            "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyY2FkMjJiZjAwZmZiNTk1NDZhMzY2NyIsImlhdCI6MTY1ODEzNzkwOSwiZXhwIjoxNjU4MjI0MzA5fQ.b2JGT59T9jsx0_MygjXnPkrBlk6FMWkfEDVzhrPfk9M"
+          }
+        }
+      },
+
+      "GetUserInfoRequest": {
+        "properties": {}
+      },
+      "GetUserInfoResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "avatarURL": {
+              "type": "string",
+              "description": "User's avatarURL",
+              "example": "http://avatar-link"
+            },
+            "name": {
+              "type": "string",
+              "description": "User's name",
+              "example": "UserName"
+            },
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email"
+            }
+          }
+        },
+        "example": {
+          "code": 200,
+          "data": {
+            "email": "user@example.com",
+            "name": "user",
+            "avatarURL": "http://avatar-link"
+          }
+        }
+      },
+
+      "ChangeNameRequest": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "user-name"
+          }
+        }
+      },
+      "ChangeNameResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "User's name",
+              "example": "user-name"
+            }
+          }
+        },
+        "example": {
+          "code": 200,
+          "data": {
+            "name": "user-name"
+          }
+        }
+      },
+
+      "ChangeAvatarRequest": {
+        "type": "object",
+        "required": ["avatar"],
+        "properties": {
+          "avatar": {
+            "type": "image/*",
+            "format": "binary",
+            "description": "User's avatar",
+            "example": "image/*"
+          }
+        }
+      },
+      "ChangeAvatarResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "avatarURL": {
+              "type": "string",
+              "description": "User's avatar",
+              "example": "http://avatar-link"
+            }
+          }
+        },
+        "example": {
+          "code": 200,
+          "data": {
+            "avatarURL": "http://avatar-link"
+          }
+        }
+      },
+
+      "GetAllNotesRequest": {
+        "properties": {}
+      },
+      "GetAllNotesResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "position": {
+              "type": "string",
+              "description": "Position",
+              "example": "Front end developer"
+            },
+            "_id": {
+              "type": "string",
+              "description": "Note id",
+              "example": "5d51694902b2373622ff5c4c"
+            },
+            "company": {
+              "type": "string",
+              "description": "Company",
+              "example": "Example company"
+            },
+            "source": {
+              "type": "string",
+              "description": "Source",
+              "example": "work.ua"
+            },
+            "url": {
+              "type": "string",
+              "description": "Link",
+              "example": "http://work.ua/vacancy"
+            },
+            "description": {
+              "type": "string",
+              "description": "Vacancy description",
+              "example": "Example description"
+            },
+            "status": {
+              "type": "string",
+              "description": "Vacancy status",
+              "example": "Надіслано"
+            },
+            "date": {
+              "type": "string",
+              "description": "Vacancy sended date",
+              "example": "12.03.2022"
+            }
+          }
+        },
+        "example": {
+          "code": 200,
+          "data": [
+            {
+              "position": "Front end developer",
+              "_id": "5d51694902b2373622ff5c4c",
+              "company": "Example company",
+              "source": "work.ua",
+              "url": "http://work.ua/vacancy",
+              "description": "Example description",
+              "status": "Надіслано",
+              "date": "12.03.2022"
+            }
+          ]
+        }
+      },
+
+      "GetNoteRequest": {
+        "properties": {}
+      },
+      "GetNoteResponse": {
+        "type": "object",
+        "properties": {
+          "position": {
+            "type": "string",
+            "description": "Position",
+            "example": "Front end developer"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Note id",
+            "example": "5d51694902b2373622ff5c4c"
+          },
+          "company": {
+            "type": "string",
+            "description": "Company",
+            "example": "Example company"
+          },
+          "source": {
+            "type": "string",
+            "description": "Source",
+            "example": "work.ua"
+          },
+          "url": {
+            "type": "string",
+            "description": "Link",
+            "example": "http://work.ua/vacancy"
+          },
+          "description": {
+            "type": "string",
+            "description": "Vacancy description",
+            "example": "Example description"
+          },
+          "status": {
+            "type": "string",
+            "description": "Vacancy status",
+            "example": "Надіслано"
+          },
+          "date": {
+            "type": "string",
+            "description": "Vacancy sended date",
+            "example": "12.03.2022"
+          }
+        },
+        "example": {
+          "code": 200,
+          "data": {
+            "position": "Front end developer",
+            "_id": "5d51694902b2373622ff5c4c",
+            "company": "Example company",
+            "source": "work.ua",
+            "url": "http://work.ua/vacancy",
+            "description": "Example description",
+            "status": "Надіслано",
+            "date": "12.03.2022"
+          }
+        }
+      },
+
+      "AddNoteRequest": {
+        "type": "object",
+        "required": ["date", "position", "company", "source", "status"],
+        "properties": {
+          "position": {
+            "type": "string",
+            "description": "Position",
+            "example": "Front end developer"
+          },
+          "company": {
+            "type": "string",
+            "description": "Company",
+            "example": "Example company"
+          },
+          "source": {
+            "type": "string",
+            "description": "Source",
+            "example": "work.ua"
+          },
+          "url": {
+            "type": "string",
+            "description": "Link",
+            "example": "http://work.ua/vacancy"
+          },
+          "description": {
+            "type": "string",
+            "description": "Vacancy description",
+            "example": "Example description"
+          },
+          "status": {
+            "type": "string",
+            "description": "Vacancy status",
+            "example": "Надіслано"
+          },
+          "date": {
+            "type": "string",
+            "description": "Vacancy sended date",
+            "example": "12.03.2022"
+          }
+        }
+      },
+      "AddNoteResponse": {
+        "type": "object",
+        "properties": {
+          "position": {
+            "type": "string",
+            "description": "Position",
+            "example": "Front end developer"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Note id",
+            "example": "5d51694902b2373622ff5c4c"
+          },
+          "company": {
+            "type": "string",
+            "description": "Company",
+            "example": "Example company"
+          },
+          "source": {
+            "type": "string",
+            "description": "Source",
+            "example": "work.ua"
+          },
+          "url": {
+            "type": "string",
+            "description": "Link",
+            "example": "http://work.ua/vacancy"
+          },
+          "description": {
+            "type": "string",
+            "description": "Vacancy description",
+            "example": "Example description"
+          },
+          "status": {
+            "type": "string",
+            "description": "Vacancy status",
+            "example": "Надіслано"
+          },
+          "date": {
+            "type": "string",
+            "description": "Vacancy sended date",
+            "example": "12.03.2022"
+          }
+        },
+        "example": {
+          "code": 201,
+          "data": {
+            "position": "Front end developer",
+            "_id": "5d51694902b2373622ff5c4c",
+            "company": "Example company",
+            "source": "work.ua",
+            "url": "http://work.ua/vacancy",
+            "description": "Example description",
+            "status": "Надіслано",
+            "date": "12.03.2022"
+          }
+        }
+      },
+
+      "DeleteNoteRequest": {
+        "properties": {}
+      },
+      "DeleteNoteResponse": {
+        "type": "object",
+        "properties": {
+          "response": {
+            "message": "Note deleted"
+          }
+        },
+        "example": {
+          "code": 200,
+          "message": "Note deleted"
+        }
+      },
+
+      "UpdateNoteRequest": {
+        "type": "object",
+        "required": ["date", "position", "company", "source", "status"],
+        "properties": {
+          "position": {
+            "type": "string",
+            "description": "Position",
+            "example": "Front end developer"
+          },
+          "company": {
+            "type": "string",
+            "description": "Company",
+            "example": "Example company"
+          },
+          "source": {
+            "type": "string",
+            "description": "Source",
+            "example": "work.ua"
+          },
+          "url": {
+            "type": "string",
+            "description": "Link",
+            "example": "http://work.ua/vacancy"
+          },
+          "description": {
+            "type": "string",
+            "description": "Vacancy description",
+            "example": "Example description"
+          },
+          "status": {
+            "type": "string",
+            "description": "Vacancy status",
+            "example": "Надіслано"
+          },
+          "date": {
+            "type": "string",
+            "description": "Vacancy sended date",
+            "example": "12.03.2022"
+          }
+        }
+      },
+      "UpdateNoteResponse": {
+        "type": "object",
+        "properties": {
+          "position": {
+            "type": "string",
+            "description": "Position",
+            "example": "Front end developer"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Note id",
+            "example": "5d51694902b2373622ff5c4c"
+          },
+          "company": {
+            "type": "string",
+            "description": "Company",
+            "example": "Example company"
+          },
+          "source": {
+            "type": "string",
+            "description": "Source",
+            "example": "work.ua"
+          },
+          "url": {
+            "type": "string",
+            "description": "Link",
+            "example": "http://work.ua/vacancy"
+          },
+          "description": {
+            "type": "string",
+            "description": "Vacancy description",
+            "example": "Example description"
+          },
+          "status": {
+            "type": "string",
+            "description": "Vacancy status",
+            "example": "Надіслано"
+          },
+          "date": {
+            "type": "string",
+            "description": "Vacancy sended date",
+            "example": "12.03.2022"
+          }
+        },
+        "example": {
+          "code": 200,
+          "data": {
+            "position": "Front end developer",
+            "_id": "5d51694902b2373622ff5c4c",
+            "company": "Example company",
+            "source": "work.ua",
+            "url": "http://work.ua/vacancy",
+            "description": "Example description",
+            "status": "Надіслано",
+            "date": "12.03.2022"
+          }
+        }
+      }
+    },
+
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
