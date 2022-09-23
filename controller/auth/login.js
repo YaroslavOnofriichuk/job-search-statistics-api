@@ -9,7 +9,8 @@ const login = async (req, res, next) => {
   const { email, password } = req.body;
   const { error } = joiUserSchema.validate({ email, password });
   let checkPasswordResult = false;
-  const { JWT_ACCESS_SECRET_KEY, JWT_REFRESH_SECRET_KEY } = process.env;
+  const { JWT_ACCESS_SECRET_KEY, JWT_REFRESH_SECRET_KEY, EXPIRES_IN } =
+    process.env;
 
   if (error) {
     return next(createError(400, error.message));
@@ -32,11 +33,11 @@ const login = async (req, res, next) => {
   };
 
   const accessToken = jwt.sign(payload, JWT_ACCESS_SECRET_KEY, {
-    expiresIn: "15m",
+    expiresIn: EXPIRES_IN,
   });
 
   const refreshToken = jwt.sign(payload, JWT_REFRESH_SECRET_KEY, {
-    expiresIn: "30d",
+    expiresIn: EXPIRES_IN,
   });
 
   const newUser = await User.findByIdAndUpdate(
