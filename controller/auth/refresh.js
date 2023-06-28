@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 
 const refresh = async (req, res, next) => {
   const { refreshToken } = req.body;
-  const { JWT_ACCESS_SECRET_KEY, JWT_REFRESH_SECRET_KEY, EXPIRES_IN } =
+  const { JWT_ACCESS_SECRET_KEY, JWT_REFRESH_SECRET_KEY, REFRESH_EXPIRES_IN, ACCESS_EXPIRES_IN } =
     process.env;
 
   if (!refreshToken) {
@@ -30,11 +30,11 @@ const refresh = async (req, res, next) => {
   };
 
   const newAccessToken = jwt.sign(payload, JWT_ACCESS_SECRET_KEY, {
-    expiresIn: EXPIRES_IN,
+    expiresIn: ACCESS_EXPIRES_IN,
   });
 
   const newRefreshToken = jwt.sign(payload, JWT_REFRESH_SECRET_KEY, {
-    expiresIn: EXPIRES_IN,
+    expiresIn: REFRESH_EXPIRES_IN,
   });
 
   const newUser = await User.findByIdAndUpdate(
